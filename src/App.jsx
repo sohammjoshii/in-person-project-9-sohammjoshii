@@ -1,12 +1,20 @@
-import { useState } from 'react'
+// import { useState } from 'react'
 // TODO: Import Routes, Route from react-router-dom
 // TODO: Import your page components
+import { Routes, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage'
+import ProjectsPage from './pages/ProjectsPage'
+import ProjectDetailPage from './pages/ProjectDetailPage'
+import AboutPage from './pages/AboutPage'
+import ContactPage from './pages/ContactPage'
 import Navigation from './components/Navigation'
+import { useLocalStorage } from './hooks/useLocalStorage'
 import './styles/App.css'
 
 function App() {
   // Theme state - will be replaced with useLocalStorage hook later
-  const [theme, setTheme] = useState('light')
+  // const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useLocalStorage('portfolio-theme', 'light')
 
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light')
@@ -23,7 +31,7 @@ function App() {
 
       <main className="app-main">
         {/* TODO: Replace this div with Routes and Route components */}
-        <div className="placeholder">
+        {/* <div className="placeholder">
           <h1>Welcome to Your Portfolio</h1>
           <p>Set up React Router to navigate between pages!</p>
           <div className="todo-box">
@@ -37,7 +45,14 @@ function App() {
               <li>Implement custom hooks</li>
             </ol>
           </div>
-        </div>
+        </div> */}
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/projects/:id" element={<ProjectDetailPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+        </Routes>
       </main>
 
       <footer className="app-footer">

@@ -575,3 +575,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Part 2: Project card link styles */
+.project-card-link {
+  color: inherit;
+  text-decoration: none;
+}

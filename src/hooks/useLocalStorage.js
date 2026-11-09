@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+// import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 // TODO: Implement the useLocalStorage custom hook
 // This hook should:
@@ -7,6 +8,7 @@ import { useState, useEffect } from 'react'
 // 3. Sync with localStorage
 // 4. Handle JSON parsing/stringifying
 
+/*
 export function useLocalStorage(key, initialValue) {
   // TODO: Initialize state with value from localStorage or initialValue
 
@@ -18,6 +20,31 @@ export function useLocalStorage(key, initialValue) {
   const [storedValue, setStoredValue] = useState(initialValue)
 
   return [storedValue, setStoredValue]
+}
+*/
+
+export function useLocalStorage(key, initialValue) {
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key)
+      return item ? JSON.parse(item) : initialValue
+    } catch (error) {
+      console.error(`Error loading ${key} from localStorage:`, error)
+      return initialValue
+    }
+  })
+
+  const setValue = (value) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value
+      setStoredValue(valueToStore)
+      window.localStorage.setItem(key, JSON.stringify(valueToStore))
+    } catch (error) {
+      console.error(`Error saving ${key} to localStorage:`, error)
+    }
+  }
+
+  return [storedValue, setValue]
 }
 
 // Example implementation structure:
